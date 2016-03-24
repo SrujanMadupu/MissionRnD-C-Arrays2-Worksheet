@@ -23,7 +23,73 @@ struct transaction {
 	char date[11];
 	char description[20];
 };
+int findlength(char *l){
+	int lengh = 0;
+	while (*l != '\0'){
+		lengh++;
+		l++;
+	}
+	return lengh;
+}
+
+int validdates(char *p, char *q){
+	int i, j, limit, l;
+	l = findlength(p);
+	limit = l;
+	for (i = l - 1; i >= 0; i--){
+		if (p[i] != '-'&&q[i] != '-'&&i != 0){
+			continue;
+		}
+		else{
+			for (j = i; j<limit; j++){
+				if (p[j] - 48<q[j] - 48){
+					return 1;
+				}
+				else if (p[j] - 48>q[j] - 48){
+					return 2;
+				}
+				else
+					continue;
+			}
+
+		}
+		limit = i;
+	}
+	return 0;
+}
 
 struct transaction * sortedArraysCommonElements(struct transaction *A, int ALen, struct transaction *B, int BLen) {
-	return NULL;
+	if ((A!=NULL&&B!=NULL)){
+		int num[10] = { 0 };
+		int k = 0;
+		for (int i = 0; i < ALen; i++){
+			for (int j = 0; j < BLen; j++){
+				if (validdates(A[i].date, B[j].date) == 1){
+					j=BLen;
+				}
+				else if (validdates(A[i].date, B[j].date) == 0){
+					num[k] = i;
+					k++;
+					j = BLen;
+				}
+				else{
+					continue;
+				}
+			}	
+		}
+		if (k > 0){
+			int j = 0;
+			for (int i = 0; i < k; i++){
+				B[j] = A[num[i]];
+				j++;
+			}
+			return B;
+		}
+		else{
+			return NULL;
+		}
+	}
+	else{
+		return NULL;
+	}
 }

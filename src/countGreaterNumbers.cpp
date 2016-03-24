@@ -19,7 +19,71 @@ struct transaction {
 	char date[11];
 	char description[20];
 };
+int findlen(char *l){
+	int lengh = 0;
+	while (*l != '\0'){
+		lengh++;
+		l++;
+	}
+	return lengh;
+}
+int check(char *p, char *q){
+	int i, j, limit, l;
+	l = findlen(p);
+	limit = l;
+	for (i = l - 1; i >= 0; i--){
+		if (p[i] != '-'&&q[i] != '-'&&i != 0){
+			continue;
+		}
+		else{
+			for (j = i; j<limit; j++){
+				if (p[j] - 48<q[j] - 48){
+					return 1;
+				}
+				else if (p[j] - 48>q[j] - 48){
+					return 2;
+				}
+				else
+					continue;
+			}
+
+		}
+		limit = i;
+	}
+	return 0;
+}
 
 int countGreaterNumbers(struct transaction *Arr, int len, char *date) {
-	return -1;
+	if (Arr&&len > 0){
+		if (check(Arr[len - 1].date,date)==1){
+			return 0;
+		}
+		else{
+			int count = 0;
+			int first = 0, last = len - 1;
+			while (first <= last){
+				int mid = first + ((last - first) / 2);
+				if (check(Arr[mid].date, date) == 2){
+					count = len - mid;
+					last = mid - 1;
+					if (mid == 0){
+						break;
+					}
+				}
+				else{
+
+
+					if (mid >= last){
+						count = 0;
+						break;
+					}
+					first = mid + 1;
+				}
+			}
+			return count;
+		}
+		}
+	else{
+      return -1;
+	}
 }
