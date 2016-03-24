@@ -55,10 +55,6 @@ int check(char *p, char *q){
 
 int countGreaterNumbers(struct transaction *Arr, int len, char *date) {
 	if (Arr&&len > 0){
-		if (check(Arr[len - 1].date,date)==1){
-			return 0;
-		}
-		else{
 			int count = 0;
 			int first = 0, last = len - 1;
 			while (first <= last){
@@ -82,7 +78,7 @@ int countGreaterNumbers(struct transaction *Arr, int len, char *date) {
 			}
 			return count;
 		}
-		}
+		
 	else{
       return -1;
 	}
